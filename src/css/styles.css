@@ -36,16 +36,20 @@ ul {
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .country-list .country-list-item {
   display: flex;
-  justify-items: center;
+  align-items: center;
   margin-bottom: 8px;
   gap: 10px;
 }
 
 .country-info-item__bald {
   font-weight: 700;
+}
+
+.country_card-img {
+  margin-right: 10px;
 }
