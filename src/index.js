@@ -2,8 +2,9 @@ import './css/styles.css';
 import { fetchCountries } from './fetchCountries.js';
 import { createCountryList } from './templates/country-list.js';
 import { createCountryInfoCard } from './templates/country-info-card.js';
-
-const debounce = require('lodash.debounce');
+import Notiflix from 'notiflix';
+import debounce from 'lodash.debounce';
+// const debounce = require('lodash.debounce');
 
 const DEBOUNCE_DELAY = 300;
 
@@ -30,7 +31,9 @@ const onSearchInput = event => {
       console.log(data);
 
       if (data.length > 10) {
-        alert('Too many matches found. Please enter a more specific name.');
+        Notiflix.Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+        );
       }
       if (data.length > 1 && data.length < 11) {
         countryListEl.innerHTML = createCountryList(data);
@@ -43,8 +46,7 @@ const onSearchInput = event => {
     })
     .catch(err => {
       if (err.message === '404') {
-        // alert('Oops, there is no country with that name');
-        console.log('Oops');
+        Notiflix.Notify.failure('Oops, there is no country with that name');
       }
     });
 };
