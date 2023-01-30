@@ -18,10 +18,17 @@ const onSearchInput = event => {
   const searchedQuery = searchInputEl.value.trim();
   console.log(searchedQuery);
 
+  if (searchedQuery === '') {
+    countryInfoEl.innerHTML = '';
+    countryListEl.innerHTML = '';
+    return;
+  }
+
   fetchCountries(searchedQuery)
     .then(data => {
       //   console.dir(data);
       console.log(data);
+
       if (data.length > 10) {
         alert('Too many matches found. Please enter a more specific name.');
       }
@@ -32,11 +39,7 @@ const onSearchInput = event => {
       if (data.length === 1) {
         countryInfoEl.innerHTML = createCountryInfoCard(data);
         countryListEl.innerHTML = '';
-        // countryInfoEl.innerHTML = `<p>Uk</p>`;
       }
-
-      //   countryListEl.innerHTML = 'LIST of countries';
-      //   countryInfoEl.innerHTML = createCountryInfoCard(countryInfoObj);
     })
     .catch(err => {
       if (err.message === '404') {
