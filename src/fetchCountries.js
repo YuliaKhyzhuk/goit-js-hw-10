@@ -1,5 +1,4 @@
 const BASE_URL = 'https://restcountries.com';
-// const API_KEY = '';
 
 export const fetchCountries = name => {
   return fetch(

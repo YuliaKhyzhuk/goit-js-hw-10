@@ -13,11 +13,7 @@ const countryListEl = document.querySelector('.country-list');
 const countryInfoEl = document.querySelector('.country-info');
 
 const onSearchInput = event => {
-  console.log(event);
-  event.preventDefault();
-
   const searchedQuery = searchInputEl.value.trim();
-  console.log(searchedQuery);
 
   if (searchedQuery === '') {
     countryInfoEl.innerHTML = '';
@@ -28,7 +24,7 @@ const onSearchInput = event => {
   fetchCountries(searchedQuery)
     .then(data => {
       //   console.dir(data);
-      console.log(data);
+      // console.log(data);
 
       if (data.length > 10) {
         Notiflix.Notify.info(
