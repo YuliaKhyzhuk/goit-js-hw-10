@@ -1,24 +1,42 @@
 import './css/styles.css';
 import { fetchCountries } from './fetchCountries.js';
+import { createCountryList } from './templates/country-list.js';
+import { createCountryInfoCard } from './templates/country-info-card.js';
+
+const debounce = require('lodash.debounce');
 
 const DEBOUNCE_DELAY = 300;
 
-const searchFormEl = document.querySelector('#search-box');
+const searchInputEl = document.querySelector('#search-box');
 const countryListEl = document.querySelector('.country-list');
 const countryInfoEl = document.querySelector('.country-info');
 
-const onSearchFormInput = event => {
+const onSearchInput = event => {
+  console.log(event);
   event.preventDefault();
 
-  const searchedQuery = searchFormEl.value.trim();
-  //   console.log(searchedQuery);
+  const searchedQuery = searchInputEl.value.trim();
+  console.log(searchedQuery);
 
   fetchCountries(searchedQuery)
     .then(data => {
+      //   console.dir(data);
       console.log(data);
+      if (data.length > 10) {
+        alert('Too many matches found. Please enter a more specific name.');
+      }
+      if (data.length > 1 && data.length < 11) {
+        countryListEl.innerHTML = createCountryList(data);
+        countryInfoEl.innerHTML = '';
+      }
+      if (data.length === 1) {
+        countryInfoEl.innerHTML = createCountryInfoCard(data);
+        countryListEl.innerHTML = '';
+        // countryInfoEl.innerHTML = `<p>Uk</p>`;
+      }
 
-      countryListEl.innerHTML = createCountryList(data);
-      countryInfoEl.innerHTML = createCountryInfoCard(data);
+      //   countryListEl.innerHTML = 'LIST of countries';
+      //   countryInfoEl.innerHTML = createCountryInfoCard(countryInfoObj);
     })
     .catch(err => {
       if (err.message === '404') {
@@ -28,4 +46,7 @@ const onSearchFormInput = event => {
     });
 };
 
-searchFormEl.addEventListener('input', onSearchFormInput);
+searchInputEl.addEventListener(
+  'input',
+  debounce(onSearchInput, DEBOUNCE_DELAY)
+);
